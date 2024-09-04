@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login with Amazon</title>
+</head>
+<body>
+
+<div id="amazon-root"></div>
+<script type="text/javascript">
+
+    window.onAmazonLoginReady = function() {
+        amazon.Login.setClientId('amzn1.application-oa2-client.82265a907c6c4d28a2421b1b6020afd6');
+    };
+    (function(d) {
+        var a = d.createElement('script'); a.type = 'text/javascript';
+        a.async = true; a.id = 'amazon-login-sdk';
+        a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+        d.getElementById('amazon-root').appendChild(a);
+    })(document);
+
+</script>
+
+<h1>Login with Amazon Example</h1>
+
+<!-- Amazon Login Button -->
+<!--<button id="LoginWithAmazon">Login with Amazon</button>-->
+
+<a href id="LoginWithAmazon">
+    <img border="0" alt="Login with Amazon"
+         src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png"
+         width="156" height="32" />
+</a>
+
+<script type="text/javascript">
+    document.getElementById('LoginWithAmazon').onclick = function() {
+        options = {}
+        options.scope = 'profile';
+        options.scope_data = {
+            'profile' : {'essential': false}
+        };
+        amazon.Login.authorize(options,
+            'https://localhost:65075/');
+        return false;
+    };
+</script>
+
+
+<!-- Container to display access token and user info -->
+<div id="login-result">
+    <p id="access-token"></p>
+    <p id="user-name"></p>
+</div>
+
+<!--&lt;!&ndash; JavaScript to handle the login &ndash;&gt;-->
+<!--<script src="app.js"></script>-->
+</body>
+</html>
