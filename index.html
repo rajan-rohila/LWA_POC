@@ -38,6 +38,15 @@
 
 <!-- Script to handle the login -->
 <script type="text/javascript">
+
+    function logWithTime(message) {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        console.log(`${hours}:${minutes}:${seconds} - ${message}`);
+    }
+
     document.getElementById('LoginWithAmazon').onclick = function() {
         setTimeout(window.doLogin, 1000);
         return false;
@@ -55,7 +64,7 @@
                 return;
             }
 
-            console.log("SUCCESS: STEP 1: AuthorizeFlow!");
+            logWithTime("SUCCESS: STEP 1: AuthorizeFlow!");
 
             //Call 2 : Get Access token (if no redirection)
             amazon.Login.retrieveToken(authRes.code, function(retrieveTokenRes) {
@@ -64,7 +73,7 @@
                     return;
                 }
 
-                console.log("SUCCESS: STEP 2: TokenRetrieval!");
+                logWithTime("SUCCESS: STEP 2: TokenRetrieval!");
 
                 //Call 2 : Retrieve profile data
                 amazon.Login.retrieveProfile(retrieveTokenRes.access_token, function(retrieveProfileRes) {
@@ -79,7 +88,7 @@
                         ' and your unique ID is ' + retrieveProfileRes.profile.CustomerId;
 
 
-                    console.log("SUCCESS: STEP 3: ProfileRetrieval!");
+                    logWithTime("SUCCESS: STEP 3: ProfileRetrieval!");
                 });
             });
         });
