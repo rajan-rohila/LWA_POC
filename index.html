@@ -55,7 +55,7 @@
                 return;
             }
 
-            console.log("SUCCESS: STEP 1: Authorize flow!");
+            console.log("SUCCESS: STEP 1: AuthorizeFlow!");
 
             //Call 2 : Get Access token (if no redirection)
             amazon.Login.retrieveToken(authRes.code, function(retrieveTokenRes) {
@@ -64,7 +64,7 @@
                     return;
                 }
 
-                console.log("SUCCESS: STEP 2: Token retrieval!");
+                console.log("SUCCESS: STEP 2: TokenRetrieval!");
 
                 //Call 2 : Retrieve profile data
                 amazon.Login.retrieveProfile(retrieveTokenRes.access_token, function(retrieveProfileRes) {
@@ -79,7 +79,7 @@
                         ' and your unique ID is ' + retrieveProfileRes.profile.CustomerId;
 
 
-                    console.log("SUCCESS: STEP 3: Profile retrieval!");
+                    console.log("SUCCESS: STEP 3: ProfileRetrieval!");
                 });
             });
         });
