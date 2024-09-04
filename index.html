@@ -47,31 +47,39 @@
         let options = {};
         options.scope = 'profile';
         options.pkce = true;
-        amazon.Login.authorize(options, function(response) {
-            if (response.error) {
-                document.getElementById('login-result').innerText = 'OAuth error: ' + response.error;
+
+        //Call 1 : Authorize flow
+        amazon.Login.authorize(options, function(authRes) {
+            if (authRes.error) {
+                document.getElementById('login-result').innerText = 'OAuth error: ' + authRes.error;
                 return;
             }
-            amazon.Login.retrieveToken(response.code, function(response) {
-                if (response.error) {
-                    document.getElementById('login-result').innerText = 'OAuth error: ' + response.error;
+
+            console.log("SUCCESS: STEP 1: Authorize flow!");
+
+            //Call 2 : Get Access token (if no redirection)
+            amazon.Login.retrieveToken(authRes.code, function(retrieveTokenRes) {
+                if (retrieveTokenRes.error) {
+                    document.getElementById('login-result').innerText = 'OAuth error: ' + retrieveTokenRes.error;
                     return;
                 }
-                amazon.Login.retrieveProfile(response.access_token, function(response) {
-                    if (response.error) {
-                        document.getElementById('login-result').innerText = 'Profile retrieval error: ' + response.error;
+
+                console.log("SUCCESS: STEP 2: Token retrieval!");
+
+                //Call 2 : Retrieve profile data
+                amazon.Login.retrieveProfile(retrieveTokenRes.access_token, function(retrieveProfileRes) {
+                    if (retrieveProfileRes.error) {
+                        document.getElementById('login-result').innerText = 'Profile retrieval error: ' + retrieveProfileRes.error;
                         return;
                     }
                     // Update the HTML with user info
-                    document.getElementById('access-token').innerText = 'Access Token: ' + response.access_token;
-                    document.getElementById('user-name').innerText = 'Hello, ' + response.profile.Name +
-                        '. Your e-mail address is ' + response.profile.PrimaryEmail +
-                        ' and your unique ID is ' + response.profile.CustomerId;
+                    document.getElementById('access-token').innerText = 'Access Token: ' + retrieveTokenRes.access_token;
+                    document.getElementById('user-name').innerText = 'Hello, ' + retrieveProfileRes.profile.Name +
+                        '. Your e-mail address is ' + retrieveProfileRes.profile.PrimaryEmail +
+                        ' and your unique ID is ' + retrieveProfileRes.profile.CustomerId;
 
-                    // Log response to console for debugging
-                    if (window.console && window.console.log) {
-                        window.console.log(response);
-                    }
+
+                    console.log("SUCCESS: STEP 3: Profile retrieval!");
                 });
             });
         });
