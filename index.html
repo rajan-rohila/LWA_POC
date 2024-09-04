@@ -12,6 +12,10 @@
 <script type="text/javascript">
 
     window.onAmazonLoginReady = function() {
+        //Setting logout for a fresh start always
+        amazon.Login.logout();
+
+        //Setting the client ID
         amazon.Login.setClientId('amzn1.application-oa2-client.82265a907c6c4d28a2421b1b6020afd6');
     };
     (function(d) {
