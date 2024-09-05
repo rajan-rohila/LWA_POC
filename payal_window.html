@@ -50,7 +50,7 @@
 <h2>Latencies (Server Side) (5 mins, last 30 days, Milliseconds)</h2>
 
 <ol>
-    <li><a href="https://tiny.amazon.com/18g45zpaj/iGraph">/ap/signin</a> -> Twice - First enters username and then password
+    <li><a href="https://tiny.amazon.com/18g45zpaj/iGraph">/ap/signin</a> -> (Two hits at max, if credentials cached, None) - First enters username and then password
         <ul>
             <li><b>Max - 723</b></li>
             <li><b>Avg - 443</b></li>
@@ -80,6 +80,16 @@
     </li>
 </ol>
 
+
+<hr>
+
+<h2>Validity</h2>
+<ol>
+    <li>Auth Code - 5 mins</li>
+    <li>Access Token - 60 mins</li>
+    <li>Refresh Token - Indefinitely</li>
+    <li>User logged in - Until you log out using amazon.Login.logout() call</li>
+</ol>
 
 
 
