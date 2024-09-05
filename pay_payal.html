@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login with Amazon</title>
+</head>
+<body>
+
+<div id="amazon-root"></div>
+<script type="text/javascript">
+
+    window.onAmazonLoginReady = function() {
+        //Setting logout for a fresh start always
+        amazon.Login.logout();
+
+        //Setting the client ID
+        amazon.Login.setClientId('amzn1.application-oa2-client.82265a907c6c4d28a2421b1b6020afd6');
+    };
+    (function(d) {
+        var a = d.createElement('script'); a.type = 'text/javascript';
+        a.async = true; a.id = 'amazon-login-sdk';
+        a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+        d.getElementById('amazon-root').appendChild(a);
+    })(document);
+
+</script>
+
+<h1>Login with Amazon Example</h1>
+
+<!-- Amazon Login Button -->
+<style>
+    div {
+        margin-bottom: 10px;
+    }
+</style>
+
+<div><button id="ServerApp">Server App</button></div>
+<div><button id="ServerAppWithRedirect">Server App with Redirect</button></div>
+<div><button id="BrowserApp">Browser App</button></div>
+<div><button id="BrowserAppWithRedirect">Browser App with Redirect</button></div>
+
+
+<!-- Script to handle the login -->
+<script type="text/javascript">
+
+    document.getElementById('ServerApp').onclick = function() {
+        setTimeout(window.doServerBasedAuthGrant, 1000);
+        return false;
+    };
+
+    document.getElementById('ServerAppWithRedirect').onclick = function() {
+        setTimeout(window.doServerBasedAuthGrantWithRedirect, 1000);
+        return false;
+    };
+
+    document.getElementById('BrowserApp').onclick = function() {
+        setTimeout(window.doBrowserBasedAuthGrant, 1000);
+        return false;
+    };
+
+    document.getElementById('BrowserAppWithRedirect').onclick = function() {
+        setTimeout(window.doServerBasedAuthGrantWithRedirect, 1000);
+        return false;
+    };
+
+    function logWithTime(message) {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        const milliseconds = now.getMilliseconds().toString().padStart(3, '0'); // Pad milliseconds to 3 digits
+        console.log(`${hours}:${minutes}:${seconds}.${milliseconds} - ${message}`);
+    }
+
+    window.doServerBasedAuthGrant = function() {
+        let options = {};
+        options.scope = 'profile';
+        options.response_type = 'code';
+
+        //Call 1 : Authorize flow
+        amazon.Login.authorize(options, function(authRes) {
+            if (authRes.error) {
+                document.getElementById('login-result').innerText = 'OAuth error: ' + authRes.error;
+                return;
+            }
+
+            logWithTime("SUCCESS: STEP 1: AuthorizeFlow!");
+            alert("Access code " + authRes.code + "\n" +
+            "Send the code to backend to retrieve access token and refresh token @ https://api.amazon.com/auth/o2/token \n" +
+            "And use access token to fetch cutomer data @ ");
+
+            //Send the code to the backend to get access token
+            //Use access token to get customer data
+        });
+    };
+
+    window.doServerBasedAuthGrantWithRedirect = function() {
+        let options = {};
+        options.scope = 'profile';
+        options.response_type = 'code';
+
+        //Call 1 : Authorize flow
+        amazon.Login.authorize(options, "https://rajan-rohila.github.io/LWA_POC/handle_code_grant.html");
+    };
+
+    window.doBrowserBasedAuthGrant = function() {
+        let options = {};
+        options.scope = 'profile';
+        options.pkce = true;
+
+        //Call 1 : Authorize flow
+        amazon.Login.authorize(options, function(authRes) {
+            if (authRes.error) {
+                document.getElementById('login-result').innerText = 'OAuth error: ' + authRes.error;
+                return;
+            }
+
+            logWithTime("SUCCESS: STEP 1: AuthorizeFlow!");
+            alert("Access code " + authRes.code);
+
+            //Call 2 : Get Access token (if no redirection)
+            amazon.Login.retrieveToken(authRes.code, function(retrieveTokenRes) {
+                if (retrieveTokenRes.error) {
+                    document.getElementById('login-result').innerText = 'OAuth error: ' + retrieveTokenRes.error;
+                    return;
+                }
+
+                logWithTime("SUCCESS: STEP 2: TokenRetrieval!");
+                alert("Access token " + retrieveTokenRes.access_token.substring(0, 10) + "..." +
+                    "\nRefresh token " + retrieveTokenRes.refresh_token);
+
+                //Call 2 : Retrieve profile data
+                amazon.Login.retrieveProfile(retrieveTokenRes.access_token, function(retrieveProfileRes) {
+                    if (retrieveProfileRes.error) {
+                        document.getElementById('login-result').innerText = 'Profile retrieval error: ' + retrieveProfileRes.error;
+                        return;
+                    }
+                    // // Update the HTML with user info
+                    // document.getElementById('access-token').innerText = 'Access Token: ' + retrieveTokenRes.access_token;
+                    // document.getElementById('user-name').innerText = 'Hello, ' + retrieveProfileRes.profile.Name +
+                    //     '. Your e-mail address is ' + retrieveProfileRes.profile.PrimaryEmail +
+                    //     ' and your unique ID is ' + retrieveProfileRes.profile.CustomerId;
+
+
+                    logWithTime("SUCCESS: STEP 3: ProfileRetrieval!");
+                    alert("Customer name " + retrieveProfileRes.profile.Name);
+                });
+            });
+        });
+    };
+</script>
+
+<!-- Container to display access token and user info -->
+<div id="login-result">
+    <p id="access-token"></p>
+    <p id="user-name"></p>
+</div>
+
+</body>
+</html>
