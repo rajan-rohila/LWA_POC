@@ -64,11 +64,6 @@
         return false;
     };
 
-    document.getElementById('BrowserAppWithRedirect').onclick = function() {
-        setTimeout(window.doServerBasedAuthGrantWithRedirect, 1000);
-        return false;
-    };
-
     function logWithTime(message) {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
