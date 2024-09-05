@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout Page</title>
+    <title>Open PayPal</title>
     <script>
         function openPayPalWindow() {
-            window.open("https://rajan-rohila.github.io/LWA_POC/payal_window?param1=abc&param2=xyz", "PayPalWindow", "width=800,height=600");
+            // Set the width and height of the new window
+            const width = 800;
+            const height = 600;
+
+            // Calculate the position to open the window in the center
+            const left = (screen.width / 2) - (width / 2);
+            const top = (screen.height / 2) - (height / 2);
+
+            // Open the new window at the calculated position
+            window.open("https://rajan-rohila.github.io/LWA_POC/payal_window?param1=abc&param2=xyz",
+                "PayPalWindow",
+                `width=${width},height=${height},top=${top},left=${left}`);
         }
     </script>
 </head>
 <body>
 
-<button onclick="openPayPalWindow()">Pay with PayPal</button>
+<button onclick="openPayPalWindow()">PayPal</button>
 
 </body>
 </html>
