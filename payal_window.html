@@ -104,7 +104,7 @@
         let options = {};
         options.scope = 'profile';
         options.response_type = 'code';
-        options.state = 'randomstate';
+        options.state = 'origin=https%3A%2F%2Frajan-rohila.github.io%2FLWA_POC%2Fpayal_window%3Fparam1%3Dabc%26param2%3Dxyz&flow=server';
 
         //Call 1 : Authorize flow
         amazon.Login.authorize(options, "https://rajan-rohila.github.io/LWA_POC/handle_code_grant.html");
