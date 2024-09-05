@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authorization Code Grant</title>
-    <script>
-        window.onload = function() {
-            // Get the URL query parameters
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
-
-            // If the 'code' parameter exists, show an alert
-            if (code) {
-                alert("Access code " + code);
-            }
-        };
-    </script>
 </head>
 <body>
 <h1>Handling Auth grant</h1>
 
-<p>This page demonstrates a simple static page, allowed in the setup as allowed return URL, where the access code is passed and can be used either on server or browser to get an access token and then customer data.</p>
+<p>This page demonstrates a simple static page, allowed in the setup as an allowed return URL, where the access code is passed and can be used either on the server or browser to get an access token and then customer data.</p>
+
+<script>
+    // This ensures that the script runs after the HTML is fully rendered
+    window.addEventListener('DOMContentLoaded', function() {
+        // Get the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        // If the 'code' parameter exists, show an alert
+        if (code) {
+            alert("Access code " + code);
+        }
+    });
+</script>
 </body>
 </html>
