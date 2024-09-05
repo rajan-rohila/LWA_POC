@@ -18,13 +18,27 @@
         const code = urlParams.get('code');
         const state = urlParams.get('state');
 
-        // If the 'code' parameter exists, show an alert
-        if (code) {
-            alert("Access code " + code);
-        }
+        // Check if 'code' and 'state' exist
+        if (code && state) {
+            // Parse the 'state' parameter to extract origin and flow
+            const stateParams = new URLSearchParams(state);
+            const origin = decodeURIComponent(stateParams.get('origin'));
+            const flow = stateParams.get('flow');
 
-        if (state) {
-            alert("State " + state);
+            // Show a single alert with all required information
+            alert(
+                "Access code: " + code + "\n\n" +
+                "The origin URL is: " + origin + "\n" +
+                "The auth flow is: " + flow + "\n\n" +
+                "Send the code to backend to retrieve access token and refresh token\n" +
+                "@ https://api.amazon.com/auth/o2/token \n\n" +
+                "And use access token to fetch customer data\n" +
+                "@ https://api.amazon.com/user/profile?access_token=...\n\n" +
+                "Now, redirecting the user back to the origin URL..."
+            );
+
+            // Redirect the user back to the origin URL
+            window.location.href = origin;
         }
     });
 </script>
