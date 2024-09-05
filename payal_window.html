@@ -91,9 +91,9 @@
             }
 
             logWithTime("SUCCESS: STEP 1: AuthorizeFlow!");
-            alert("Access code " + authRes.code + "\n" +
-            "Send the code to backend to retrieve access token and refresh token @ https://api.amazon.com/auth/o2/token \n" +
-            "And use access token to fetch cutomer data @ ");
+            alert("Access code " + authRes.code + "\n\n" +
+            "Send the code to backend to retrieve access token and refresh token \n@ https://api.amazon.com/auth/o2/token \n" +
+            "\n\nAnd use access token to fetch cutomer data \n@ https://api.amazon.com/user/profile?access_token=...");
 
             //Send the code to the backend to get access token
             //Use access token to get customer data
