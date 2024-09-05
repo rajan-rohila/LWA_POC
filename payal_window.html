@@ -36,7 +36,7 @@
 <!-- Amazon Login Button -->
 <style>
     div {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 </style>
 
@@ -44,6 +44,43 @@
 <div><button id="ServerAppWithRedirect">LWA SDK gets AuthCode | Redirects to Interstitial | Server fetches Tokens and Profile | Redirects to Origin</button></div>
 <div><button id="BrowserApp">LWA SDK gets AuthCode | Back to Origin | Browser fetches Tokens and Profile (Uses PKCE, No Refresh Token, Not Recommended)</button></div>
 <!--<div><button id="BrowserAppWithRedirect">Browser App with Redirect</button></div>-->
+
+<hr>
+
+<h2>Latencies (Server Side) (5 mins, last 30 days, Milliseconds)</h2>
+
+<ol>
+    <li><a href="https://tiny.amazon.com/18g45zpaj/iGraph">/ap/signin</a> -> Twice - First enters username and then password
+        <ul>
+            <li><b>Max - 723</b></li>
+            <li><b>Avg - 443</b></li>
+            <li><b>Min - 228</b></li>
+        </ul>
+    </li>
+    <li><a href="https://tiny.amazon.com/16e5djwa2/iGraph">/ap/oa</a> -> First hit - [One time - Consent to share, Then onwards - Consent to sign in], Second hit - [One time - To get the auth code]
+        <ul>
+            <li><b>Max - 725</b></li>
+            <li><b>Avg - 348</b></li>
+            <li><b>Min - 259</b></li>
+        </ul>
+    </li>
+    <li><a href="https://tiny.amazon.com/1hx4gxqgq/iGraph">https://api.amazon.com/auth/o2/token</a> -> Exchange auth code for access and refresh token
+        <ul>
+            <li><b>Max - 185</b></li>
+            <li><b>Avg - 92</b></li>
+            <li><b>Min - 86</b></li>
+        </ul>
+    </li>
+    <li><a href="https://tiny.amazon.com/197d10hge/iGraph">https://api.amazon.com/user/profile?access_token=..</a> -> To get customer profile
+        <ul>
+            <li><b>Max - 253</b></li>
+            <li><b>Avg - 121</b></li>
+            <li><b>Min - 94</b></li>
+        </ul>
+    </li>
+</ol>
+
+
 
 
 <!-- Script to handle the login -->
