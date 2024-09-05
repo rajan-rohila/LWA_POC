@@ -55,6 +55,16 @@
         return false;
     };
 
+    document.getElementById('BrowserApp').onclick = function() {
+        setTimeout(window.doBrowserBasedAuthGrant, 1000);
+        return false;
+    };
+
+    document.getElementById('BrowserAppWithRedirect').onclick = function() {
+        setTimeout(window.doServerBasedAuthGrantWithRedirect, 1000);
+        return false;
+    };
+
     function logWithTime(message) {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
@@ -106,6 +116,7 @@
             }
 
             logWithTime("SUCCESS: STEP 1: AuthorizeFlow!");
+            alert("Access code " + authRes.code);
 
             //Call 2 : Get Access token (if no redirection)
             amazon.Login.retrieveToken(authRes.code, function(retrieveTokenRes) {
@@ -115,6 +126,8 @@
                 }
 
                 logWithTime("SUCCESS: STEP 2: TokenRetrieval!");
+                alert("Access token " + retrieveTokenRes.access_token.substring(0, 10) + "..." +
+                    "\nRefresh token " + retrieveTokenRes.refresh_token);
 
                 //Call 2 : Retrieve profile data
                 amazon.Login.retrieveProfile(retrieveTokenRes.access_token, function(retrieveProfileRes) {
@@ -122,14 +135,15 @@
                         document.getElementById('login-result').innerText = 'Profile retrieval error: ' + retrieveProfileRes.error;
                         return;
                     }
-                    // Update the HTML with user info
-                    document.getElementById('access-token').innerText = 'Access Token: ' + retrieveTokenRes.access_token;
-                    document.getElementById('user-name').innerText = 'Hello, ' + retrieveProfileRes.profile.Name +
-                        '. Your e-mail address is ' + retrieveProfileRes.profile.PrimaryEmail +
-                        ' and your unique ID is ' + retrieveProfileRes.profile.CustomerId;
+                    // // Update the HTML with user info
+                    // document.getElementById('access-token').innerText = 'Access Token: ' + retrieveTokenRes.access_token;
+                    // document.getElementById('user-name').innerText = 'Hello, ' + retrieveProfileRes.profile.Name +
+                    //     '. Your e-mail address is ' + retrieveProfileRes.profile.PrimaryEmail +
+                    //     ' and your unique ID is ' + retrieveProfileRes.profile.CustomerId;
 
 
                     logWithTime("SUCCESS: STEP 3: ProfileRetrieval!");
+                    alert("Customer name " + retrieveProfileRes.profile.Name);
                 });
             });
         });
