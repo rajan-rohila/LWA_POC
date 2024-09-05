@@ -50,28 +50,28 @@
 <h2>Latencies (Server Side) (5 mins, last 30 days, Milliseconds)</h2>
 
 <ol>
-    <li><a href="https://tiny.amazon.com/18g45zpaj/iGraph">/ap/signin</a> -> (Two hits at max, if credentials cached, None) - First enters username and then password
+    <li><a href="https://tiny.amazon.com/18g45zpaj/iGraph">/ap/signin</a> -> (Two hits at max, if credentials cached, None) @ FE - First enters username and then password
         <ul>
             <li><b>Max - 723</b></li>
             <li><b>Avg - 443</b></li>
             <li><b>Min - 228</b></li>
         </ul>
     </li>
-    <li><a href="https://tiny.amazon.com/16e5djwa2/iGraph">/ap/oa</a> -> First hit - [One time - Consent to share, Then onwards - Consent to sign in], Second hit - [One time - To get the auth code]
+    <li><a href="https://tiny.amazon.com/16e5djwa2/iGraph">/ap/oa</a> -> (Two hits) @ FE | First hit - [One time - Consent to share, Then onwards - Consent to sign in], Second hit - [To get the auth code]
         <ul>
             <li><b>Max - 725</b></li>
             <li><b>Avg - 348</b></li>
             <li><b>Min - 259</b></li>
         </ul>
     </li>
-    <li><a href="https://tiny.amazon.com/1hx4gxqgq/iGraph">https://api.amazon.com/auth/o2/token</a> -> Exchange auth code for access and refresh token
+    <li><a href="https://tiny.amazon.com/1hx4gxqgq/iGraph">https://api.amazon.com/auth/o2/token</a> -> (One hit) @FE/BE - Exchange auth code for access and refresh token
         <ul>
             <li><b>Max - 185</b></li>
             <li><b>Avg - 92</b></li>
             <li><b>Min - 86</b></li>
         </ul>
     </li>
-    <li><a href="https://tiny.amazon.com/197d10hge/iGraph">https://api.amazon.com/user/profile?access_token=..</a> -> To get customer profile
+    <li><a href="https://tiny.amazon.com/197d10hge/iGraph">https://api.amazon.com/user/profile?access_token=..</a> -> (One hit) @FE/BE - To get customer profile
         <ul>
             <li><b>Max - 253</b></li>
             <li><b>Avg - 121</b></li>
